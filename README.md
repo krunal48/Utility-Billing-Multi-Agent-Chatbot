@@ -57,11 +57,33 @@ Agents communicate through prompt-based or LLM-based coordination.
 
 | Component | Technology |
 |---------|------------|
-| Language Model | GPT-4 / GPT-5 / LLaMA 3 or similar |
-| Framework (optional) | LangChain / CrewAI / Haystack |
+| Language Model | GPT-4 |
 | Backend | Python |
-| Interface | Streamlit / Gradio / Chat UI |
-| Storage | Local / Cloud / Vector DB (optional) |
+| Interface | Streamlit |
+| Storage | Pincone Cloud Vector DB |
+
+---
+
+## 🤗 Hugging Face Integration
+
+This project uses Hugging Face models for natural language understanding and text classification.  
+You can swap or fine-tune models depending on your performance and latency requirements.
+
+**Example models used:**
+| Purpose | Model | Link |
+|--------|-------|------|
+| Intent Classification | `bert-base-uncased` (fine-tuned) | https://huggingface.co/bert-base-uncased |
+| Sentiment Analysis | `cardiffnlp/twitter-roberta-base-sentiment` | https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment |
+| Embeddings / Context Understanding | `sentence-transformers/all-MiniLM-L6-v2` | https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2 |
+
+### Loading Models
+
+```python
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+
+model_name = "bert-base-uncased"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForSequenceClassification.from_pretrained(model_name)
 
 ---
 
