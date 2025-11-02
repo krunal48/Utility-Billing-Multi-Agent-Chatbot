@@ -1,101 +1,81 @@
-# CallSenseAI
-A Multi-Agent AI System for Banking Call Transcript Behavioural Analysis
+# Utility Billing Multi-Agent Conversational Chatbot
 
-CallSenseAI is a multi-agent conversational analytics system designed to automatically analyze customer service call transcripts in banking environments. The system identifies **customer intent**, **sentiment**, and **root cause issues** to support Quality Assurance teams and improve customer satisfaction.
-
----
-
-## 🔍 Project Overview
-
-Banks handle thousands of customer support calls daily. Manual review is slow, inconsistent, and expensive. CallSenseAI automates this process using a multi-agent architecture that collaborates to analyze transcripts and produce actionable insights.
-
-The system is accessed via a chatbot interface, allowing QA teams to upload transcripts and receive structured feedback instantly.
+This project implements a **multi-agent conversational AI system** to support customer billing inquiries in the utility services domain (such as gas, water, or electricity companies). The goal is to provide accurate, context-aware, and human-like responses by decomposing the chatbot into multiple specialized agents controlled by a central **Manager Agent**.
 
 ---
 
-## 🧠 System Architecture
+## Objective
 
-The system consists of **four AI Agents**:
-
-| Agent | Purpose |
-|------|---------|
-| **Supervisor Agent** | Manages workflow, delegates tasks, aggregates final outputs |
-| **Intent Classification Agent** | Classifies customer goal from 14 predefined banking intents (e.g., balance inquiry, loan request, card issue) |
-| **Sentiment Analysis Agent** | Evaluates emotional tone at multiple points in the conversation |
-| **Root Cause Analysis Agent** | Determines underlying issue, friction points, and preventable problems |
-
-Agents communicate through prompt-based or LLM-based coordination.
+To automate customer support for billing queries by enabling the chatbot to:
+- Understand user intent
+- Retrieve and extract bill details from PDF bills
+- Explain bill components in simple language
+- Escalate unresolved or complaint-related queries
+- Collect customer feedback to improve service
 
 ---
 
-## 🏦 Sample Supported Banking Intents
+## System Architecture
 
-- Account balance enquiry  
-- Credit/Debit card blocked  
-- Loan enquiry or application  
-- Transaction dispute  
-- Online banking login issue  
-- Account upgrade  
-- Fraud or suspicious activity report  
-*(Total: 14 predefined intents)*
+The system is composed of **six specialized agents**, each responsible for a specific part of the conversation:
 
----
+1. **Manager Agent**
+   - Orchestrates tasks and decides which agent should take action next based on context.
 
-## 🧾 Key Features
+2. **Intent Recognition Agent**
+   - Identifies what the customer is asking (e.g., bill amount inquiry, due date query, complaint).
 
-- ✅ Multi-Agent Reasoning Architecture  
-- ✅ Works with any call transcript (text form)  
-- ✅ Identifies emotional sentiment trends  
-- ✅ Detects core customer frustration drivers  
-- ✅ Provides summary & improvement recommendations  
-- ✅ Chatbot interface for QA teams  
-- ✅ Modular and scalable design
+3. **Bill Extraction Agent**
+   - Parses and extracts structured data from PDF bills (meter usage, bill amount, taxes, due date, etc.).
 
----
+4. **Billing Explanation Agent**
+   - Converts bill data into simple explanations that customers can easily understand.
 
-## 🏗️ Tech Stack
+5. **Escalation Agent**
+   - Handles scenarios where the user is dissatisfied or when issues require human support.
 
-| Component | Technology |
-|---------|------------|
-| Language Model | GPT-4 |
-| Backend | Python |
-| Interface | Streamlit |
-| Storage | Pincone Cloud Vector DB |
+6. **Feedback Agent**
+   - Collects customer experience feedback at the end of the interaction.
 
 ---
 
-## 🤗 Hugging Face Integration
+## Conversation Flow
 
-This project uses Hugging Face models for natural language understanding and text classification.  
-You can swap or fine-tune models depending on your performance and latency requirements.
+- User Message → Intent Recognition Agent
+- Manager Agent (decision point)
+- Bill Extraction Agent (if needed)
+- Billing Explanation Agent
+- Escalation Agent (if required)
+- Feedback Agent (conversation closure)
 
-**Example models used:**
-| Purpose | Model | Link |
-|--------|-------|------|
-| Intent Classification | `bert-base-uncased` (fine-tuned) | https://huggingface.co/bert-base-uncased |
-| Sentiment Analysis | `cardiffnlp/twitter-roberta-base-sentiment` | https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment |
-| Embeddings / Context Understanding | `sentence-transformers/all-MiniLM-L6-v2` | https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2 |
-
-### Loading Models
-
-```python
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
-
-model_name = "bert-base-uncased"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForSequenceClassification.from_pretrained(model_name)
 
 ---
 
-## 🚀 How to Run
+## Features
+
+- Natural language understanding of billing questions
+- Automated PDF bill reading and structured data extraction
+- Friendly, human-readable billing breakdown
+- Complaint escalation logic
+- End-of-chat feedback collection
+
+---
+
+## Tech Stack
+
+- **Python**
+- **LLM / Chat Model:** OpenAI / HuggingFace
+- **PDF Parsing:** PyMuPDF
+- **Agent Orchestration:**  Manager agent routing logic
+- **UI (optional):** Streamlit
+
+---
+
+## Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/CallSenseAI.git
-cd CallSenseAI
-
-# Install dependencies
+git clone https://github.com/<your-username>/utility-billing-multi-agent-chatbot.git
+cd utility-billing-multi-agent-chatbot
 pip install -r requirements.txt
+streamlit run app.py
 
-# Run the chatbot app
-python app.py
